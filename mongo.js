@@ -17,6 +17,12 @@
 //     client.close();
 // });
 
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-mongoose.connect("mongodb://localhost/customer", {useNewUrlParser: true})
+mongoose.connect("mongodb://localhost/customer", { useNewUrlParser: true }, { useUnifiedTopology: true })
+
+mongoose.connection
+    .once("open", () => console.log("Connected"))
+    .on("error", (error) => {
+        console.log("my error", error)
+    })
