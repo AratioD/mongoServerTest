@@ -17,12 +17,24 @@
 //     client.close();
 // });
 
+var process = require("process")
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb://localhost/customer", { useNewUrlParser: true }, { useUnifiedTopology: true })
+mongoose.connect("mongodb://localhost/customer", { useNewUrlParser: true })
+
+if (process.pid) {
+    console.log('This process is your pid ' + process.pid);
+}
 
 mongoose.connection
     .once("open", () => console.log("Connected"))
     .on("error", (error) => {
         console.log("my error", error)
     })
+
+function exitProcess() {
+    process.abort()
+
+}
+
+setTimeout(exitProcess, 3000);
