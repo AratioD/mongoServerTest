@@ -41,7 +41,7 @@ const mongoClient = require('mongodb').MongoClient
 const url = 'mongodb://localhost:27017/users'
 
 // create new devices collection and add some data into it
-mongoClient.connect(url, {
+mongoClient.connect(url,  {
     useNewUrlParser: true,
     useUnifiedTopology: true
 },
@@ -51,14 +51,14 @@ mongoClient.connect(url, {
         }
         else {
             console.log('CONNECTED: ', url)
-           // var db = mongoClient.db('customer');
+            // var cursor = db.collection('firstName').find( );
 
-  
-            // db.collection('customers').findOne({}, function (findErr, result) {
-            //     if (findErr) throw findErr;
-            //     console.log(result.name);
-            //     client.close();
-            // });
+            //console.log(db)
+            const demoDb = db.db('users')
+            const collection = demoDb.collection('name')
+
+            temp = collection.find({}).toArray(function (err, items){});
+            console.log(temp)
         }
     }
 )
