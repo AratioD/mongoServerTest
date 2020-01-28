@@ -39,16 +39,28 @@
 //   }
 // )
 var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://localhost:27017/newData11";
+var url = "mongodb://localhost:27017/users";
 
-MongoClient.connect(url, { useUnifiedTopology: true }, function(err, db)  {
-  if (err) throw err;
-  var dbo = db.db("users");
-  dbo.collection("firstName").find({}).toArray(function(err, result) {
+MongoClient.connect(url, { useUnifiedTopology: true }, function (err, db) {
     if (err) throw err;
-    console.log(result);
-    db.close();
-  });
+    var dbo = db.db("users");
+
+
+    var myobj = { name: "33 Inc", address: "Highway 37" };
+    var myobj1 = { name: "Cdfdompany Inc", address: "dfssdf 37" };
+
+    dbo.collection("firstName").insertOne(myobj1, function (err, res) {
+        if (err) throw err;
+        console.log("1 document inserted");
+        db.close();
+    });
+
+
+    dbo.collection("firstName").find({}).toArray(function (err, result) {
+        if (err) throw err;
+        console.log(result);
+        db.close();
+    });
 });
 //Process function abort, because it manual PID killing is boring
 // function exitProcess() {
