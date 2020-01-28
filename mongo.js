@@ -41,7 +41,7 @@ const mongoClient = require('mongodb').MongoClient
 const url = 'mongodb://localhost:27017/users'
 
 // create new devices collection and add some data into it
-mongoClient.connect(url,  {
+mongoClient.connect(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 },
@@ -53,16 +53,29 @@ mongoClient.connect(url,  {
             console.log('CONNECTED: ', url)
             // var cursor = db.collection('firstName').find( );
 
-            //console.log(db)
-            const demoDb = db.db('users')
-            const collection = demoDb.collection('name')
+            const demoDb = db.db('nodedemos')
 
-            temp = collection.find({}).toArray(function (err, items){});
-            console.log(temp)
+            const collection = demoDb.collection('devices')
+      
+            const devArr = []
+      
+            devArr.push({"device":"Webcam","manufacturer":"Skalith","purchaseDate":"23.06.2011","price":39})
+            devArr.push({"device":"Monitor","manufacturer":"Roodel","purchaseDate":"26.04.2011","price":32})
+            devArr.push({"device":"Network card","manufacturer":"Twitterbeat","purchaseDate":"17.05.2014","price":10})
+            devArr.push({"device":"Digital camera","manufacturer":"Trilith","purchaseDate":"29.12.2013","price":21})
+            devArr.push({"device":"Sound Card","manufacturer":"Tagchat","purchaseDate":"14.07.2012","price":75})
+      
+            collection.insertMany(devArr, (err, result) => {
+              if (err) {
+                console.log(err)
+              } else {
+                console.log('Inserted %d documents with "_id" %s', result.length, result)
+              }
+              db.close()
+            })
+          }
         }
-    }
-)
-
+      )
 
 //Process function abort, because it manual PID killing is boring
 function exitProcess() {
