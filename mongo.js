@@ -46,10 +46,10 @@ MongoClient.connect(url, { useUnifiedTopology: true }, function (err, db) {
     var dbo = db.db("users");
 
 
-    var myobj = { name: "33 Inc", address: "Highway 37" };
-    var myobj1 = { name: "Cdfdompany Inc", address: "dfssdf 37" };
+    var myobj = { name: "Juu Company Inc", address: "Apple street 10" };
+    var myobj1 = { name: "SX SW development Inc", address: "Pizza street" };
 
-    dbo.collection("firstName").insertOne(myobj1, function (err, res) {
+    dbo.collection("firstName").insertMany([myobj1, myobj], function (err, res) {
         if (err) throw err;
         console.log("1 document inserted");
         db.close();
