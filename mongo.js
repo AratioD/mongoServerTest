@@ -10,10 +10,9 @@ const pool = mariadb.createPool({
 });
 pool.getConnection()
     .then(conn => {
-        //console.log(conn)
         conn.query("SELECT * FROM authorstbl")
             .then((rows) => {
-                console.log(rows); //[ {val: 1}, meta: ... ]
+                console.log(rows); 
                 //Table must have been created before 
                 let value = "INSERT INTO authorstbl (AuthorName) VALUES ('Mika Hakkinen')"
                 //return conn.query("INSERT INTO authorstbl (AuthorName) VALUES ('Mika Hakkinen');
@@ -25,7 +24,6 @@ pool.getConnection()
                 console.log(rows)
             })
             .then((res) => {
-                //console.log(res); // { affectedRows: 1, insertId: 1, warningStatus: 0 }
                 conn.end();
             })
             .catch(err => {
