@@ -1,25 +1,35 @@
+const mariadb = require('mariadb');
+const pool = mariadb.createPool({
+    host: 'localhost',
+    user: 'root',
+    //I know this is not a best practice, but this is just a test
+    password: 'NytTestataanMariaDB2020',
+    connectionLimit: 5
+});
+pool.getConnection()
+    .then(conn => {
 
-let MongoClient = require("mongodb").MongoClient
-let url = "mongodb://localhost:27017/"
+        conn.query("SELECT 1 as val")
+            .then((rows) => {
+                console.log(rows); //[ {val: 1}, meta: ... ]
+                //Table must have been created before 
+                // " CREATE TABLE myTable (id int, val varchar(255)) "
+                return conn.query("INSERT INTO myTable value (?, ?)", [1, "mariadb"]);
+            })
+            .then((res) => {
+                console.log(res); // { affectedRows: 1, insertId: 1, warningStatus: 0 }
+                conn.end();
+            })
+            .catch(err => {
+                //handle error
+                console.log(err);
+                conn.end();
+            })
 
-// my database name
-const dbName = "backEnd"
+    }).catch(err => {
+        //not connected
+    });
 
-MongoClient.connect(url, { useUnifiedTopology: true }, function (err, db) {
-    if (err) throw err
-    let dbo = db.db(dbName)
 
-    let myobj = { name: "Juu Company Inc", address: "Apple street 10" }
-    let myobj1 = { name: "SX SW development Inc", address: "Pizza street" }
 
-    dbo.collection("firstName").insertMany([myobj1, myobj], function (err, res) {
-        if (err) throw err
-        console.log("1 document inserted")
-        db.close()
-    })
-    dbo.collection("backEnd").find({}).toArray(function (err, result) {
-        if (err) throw err
-        console.log(result)
-        db.close()
-    })
-})
+
